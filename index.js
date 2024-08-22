@@ -15,6 +15,16 @@ morgan.token('data', (req, res) => { return JSON.stringify(req.body)})
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
+app.get('/info', (req, res) => {
+  Person.countDocuments({})
+    .then((count) => {
+      res.send(`
+        <p>Phonebook has info for ${count} people</p>
+        <p>${new Date()}</p>
+      `)
+    })
+})
+
 app.get('/api/persons', (req, res, next) => {
   Person.find({})
     .then(persons => {
